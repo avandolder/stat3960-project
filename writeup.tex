@@ -1,11 +1,75 @@
 \documentclass{article}
 \title{STAT-3980 Project}
 \author{Adam Vandolder}
-\date{January 20, 2020}
+
+\usepackage{multicol}
 
 \begin{document}
     \pagenumbering{gobble}
     \maketitle
 
-    Experiment results:
+    \section{Objective}
+    
+    To simulate a number of trials of a stock investment strategy in order to
+    determine whether or not it is an effective strategy in the long run.
+
+    \section{Code}
+    
+    My Python script works by simulating the strategy 20 times, then outputting
+    the results, along with the average profit. During the simulation, it
+    iterates through 70 days, each time adding \$1000 worth of shares to a
+    running total and calculating the share price for the next day.  The share
+    price is calculated according to the given algorithm, using
+    \texttt{random.random()}, which generates a uniform random variable on [0,
+    1).  The simulation ultimately returns the share total times the current
+    share price, subtracting the cost of buying the shares (in this case, 70 *
+    1000).
+
+    \section{Experiment results}
+
+    Profit/Loss from 20 Trials
+    \begin{multicols}{2}
+    \begin{verbatim}
+Trial #1:   $  14239.29
+Trial #2:   $  11195.63
+Trial #3:   $  30888.82
+Trial #4:   $ -10446.46
+Trial #5:   $  -3622.53
+Trial #6:   $  21708.33
+Trial #7:   $  -1422.30
+Trial #8:   $   2528.35
+Trial #9:   $   6165.58
+Trial #10:  $  -1002.27
+Trial #11:  $   1470.45
+Trial #12:  $ -10493.18
+Trial #13:  $   1382.47
+Trial #14:  $  17257.54
+Trial #15:  $  -5910.84
+Trial #16:  $   7143.83
+Trial #17:  $   1242.53
+Trial #18:  $  -5447.22
+Trial #19:  $ -21885.45
+Trial #20:  $  -4588.64
+    \end{verbatim}
+    \end{multicols}
+    \begin{verbatim}
+Average Profit:   $   2520.20
+    \end{verbatim}
+
+    \section{Conclusions}
+    
+    In the long run, it appears that the strategy will make money.  This can be
+    seen when running the simulation for a large number (say, $>$1000) of
+    trials, as it will give a profit, usually of around \$2000.  This can also
+    be determined by the fact that the strategy entails buying \$1000 of shares
+    each day, meaning that you will buy less when the price is high and more
+    when the price is low, so as long as the average share price you bought at
+    is less than the final share price, you will make money. By examining the
+    probabilities, it becomes clear that the price of an individual share will
+    always be in-between \$4 and \$14, with the probability of the price
+    increasing going from 100\% down to 0\% by 10\% at each dollar the price
+    increases by. So by starting out with the share price at \$9, you are
+    likely to make a profit in the long run. As such, investing in this way is
+    a good strategy.
+
 \end{document}
