@@ -9,12 +9,12 @@ import random
 def next_price(curr_price):
     """Generate the next day's stock price from the current price."""
     if curr_price <= 9:
-        if random.random() <= (curr_price - 4) / 10:
+        if random.random() < (curr_price - 4) / 10:
             return curr_price - 1
         else:
             return curr_price + 1
     else:
-        if random.random() <= (14 - curr_price) / 10:
+        if random.random() < (14 - curr_price) / 10:
             return curr_price + 1
         else:
             return curr_price - 1
