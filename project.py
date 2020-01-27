@@ -1,5 +1,10 @@
+#!/usr/bin/env python3
+
+# STAT-3980 Project
+# Author: Adam Vandolder, Student #104629080
+
+import argparse
 import random
-import sys
 
 def next_price(curr_price):
     """Generate the next day's stock price from the current price."""
@@ -14,27 +19,33 @@ def next_price(curr_price):
         else:
             return curr_price - 1
 
-def simulate(days, initial_price):
-    """Simulate profit from running the strategy with specified days and initial_price."""
+def profit_from_trial(days, initial_price):
+    """Compute profit from a trial using the strategy, given days and initial_price."""
     price = initial_price
-    stocks = 0
+    shares = 0.0
     
     for day in range(days):
-        stocks += 1000 / price
+        shares += 1000 / price
         price = next_price(price)
 
-    return stocks * price - 1000 * days
+    return shares * price - 1000 * days
 
-def main(args):
-    simulations = [simulate(days=70, initial_price=9) for i in range(20)]
+def run_trials(trials, days, price, quiet):
+    """Run trials and output average profit/loss."""
+    profits = [profit_from_trial(days, price) for i in range(trials)]
 
-    print('Profit/Loss from 20 Simulations')
-    for (i, profit) in enumerate(simulations):
-        print('Simulation {}:\t${:>10.2f}'.format(i + 1, profit))
+    if not quiet:
+        print('Profit/Loss from {} Trials'.format(trials))
+        for (i, profit) in enumerate(profits):
+            print('Trial #{}:\t${:>10.2f}'.format(i + 1, profit))
+        print()
 
-    print('\nAverage Profit:\t${:>10.2f}'.format(sum(simulations) / len(simulations)))
-
-    return 0
+    print('Average Profit:\t${:>10.2f}'.format(sum(profits) / len(profits)))
 
 if __name__ == '__main__':
-    sys.exit(main(sys.argv))
+    parser = argparse.ArgumentParser(description='Compute average profit from a number of trials')
+    parser.add_argument('-t', '--trials', type=int, help='Number of trials to run', default=20)
+    parser.add_argument('-d', '--days', type=int, help='Number of days to run each trial', default=70)
+    parser.add_argument('-p', '--price', type=int, help='Initial stock price', default=9)
+    parser.add_argument('-q', '--quiet', action='store_true', help='Only output average profit')
+    run_trials(**vars(parser.parse_args()))
